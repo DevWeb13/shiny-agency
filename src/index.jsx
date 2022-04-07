@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
+import Header from './components/Header';
 import Home from './pages/Home';
 import Survey from './pages/Survey';
-import Header from './components/Header';
+import Error from './pages/Error';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -14,6 +15,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/survey/:questionNumber" element={<Survey />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </Router>
   </React.StrictMode>,

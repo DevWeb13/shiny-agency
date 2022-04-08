@@ -10,13 +10,21 @@ import Results from './pages/Results';
 import Freelances from './pages/Freelances';
 import Error from './pages/Error';
 import reportWebVitals from './reportWebVitals';
+import { createGlobalStyle } from 'styled-components';
 
 const container = document.getElementById('app');
 const root = createRoot(container);
 
+const GlobalStyle = createGlobalStyle`
+    * {
+        font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    }
+`;
+
 root.render(
   <React.StrictMode>
     <Router>
+      <GlobalStyle />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

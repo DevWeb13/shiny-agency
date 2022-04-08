@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import Header from './components/Header';
@@ -10,7 +11,10 @@ import Freelances from './pages/Freelances';
 import Error from './pages/Error';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+const container = document.getElementById('app');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <Router>
       <Header />
@@ -22,8 +26,7 @@ ReactDOM.render(
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,35 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { StyledLink } from './../../utils/style/Atoms';
+import HomeMainImgSrc from '../../assets/homeMainImg.svg';
 
-const HomeContainer = styled.div`
-  width: 100%;
+const HomeContainer = styled.main`
   display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-content: space-around;
+  background: #f9f9fc;
+  height: 824px;
 `;
 
-const Balloon = styled.div`
-  height: 100px;
-  width: 100px;
-  border-radius: 50px;
-  background-color: #e20202;
-  transform: scale(
-    ${({
-      // @ts-ignore
-      size,
-    }) => size}
-  );
+const HomeTextButtonContainer = styled.div`
+  width: 40%;
+`;
+
+const HomeTxt = styled.p`
+  font-size: 3.125rem;
+  line-height: 5rem;
+`;
+
+const HomeMainImgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 function Home() {
-  const [size, setSize] = useState(1);
   return (
     <HomeContainer>
-      <h1 onClick={() => setSize(size + 0.1)}>Page d'accueil</h1>
-      <Balloon
-        // @ts-ignore
-        size={size}
-      />
+      <HomeTextButtonContainer>
+        <HomeTxt>
+          Repérez vos besoins, on s'occupe du reste, avec les meilleurs talents
+        </HomeTxt>
+        <StyledLink
+          to="/survey/1"
+          // @ts-ignore
+          $isFullLink
+        >
+          Faire le test
+        </StyledLink>
+      </HomeTextButtonContainer>
+      <HomeMainImgContainer>
+        <img src={HomeMainImgSrc} alt="profil draw" />
+      </HomeMainImgContainer>
     </HomeContainer>
   );
 }

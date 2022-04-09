@@ -20,7 +20,9 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Trebuchet MS', Helvetica, sans-serif;
     }
     body{
-      margin: 45px;
+      margin: 0 5%;
+     
+     
     }
 `;
 

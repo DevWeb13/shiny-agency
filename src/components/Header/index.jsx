@@ -1,30 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import colors from '../../utils/style/colors';
+import { StyledLink } from './../../utils/style/Atoms';
 import Logo from '../../assets/Logo.svg';
-
-const StyledLink = styled(Link)`
-  padding: 15px;
-  color: #8186a0;
-  text-decoration: none;
-  font-size: 18px;
-  ${(props) =>
-    // @ts-ignore
-    props.$isFullLink &&
-    `color: white; border-radius: 30px; background-color: ${colors.primary}; padding: 10px 38px;`} }
-`;
 
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 12.5rem;
 `;
 
 function Header() {
   return (
     <StyledHeader>
-      <img src={Logo} alt="logo" />
+      <img src={Logo} alt="logo" width="187px" />
 
       <nav>
         <StyledLink to="/">Accueil</StyledLink>

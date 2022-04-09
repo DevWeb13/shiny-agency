@@ -17,13 +17,15 @@ const root = createRoot(container);
 
 const GlobalStyle = createGlobalStyle`
     * {
-        font-family: 'Trebuchet MS', Helvetica, sans-serif;
+      font-family: 'Trebuchet MS', Helvetica, sans-serif;
     }
     body{
       margin: 0 5%;
-     
-     
+      min-height: 100vh;
+    min-height: fill-available;
+    
     }
+   
 `;
 
 root.render(

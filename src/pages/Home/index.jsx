@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { StyledLink } from './../../utils/style/Atoms';
 import HomeMainImgSrc from '../../assets/homeMainImg.svg';
+import colors from '../../utils/style/colors';
+import { variables } from './../../utils/style/variables';
 
 const HomeContainer = styled.main`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: #f9f9fc;
-  height: 824px;
+  background: ${colors.background};
+  height: calc(100vh - ${variables.headerHeight});
 `;
 
 const HomeTextButtonContainer = styled.div`

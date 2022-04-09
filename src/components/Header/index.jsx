@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { StyledLink } from './../../utils/style/Atoms';
 import Logo from '../../assets/Logo.svg';
 
+export const headerHeight = '12.5rem';
+
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 12.5rem;
+  height: ${headerHeight};
 `;
 
 function Header() {

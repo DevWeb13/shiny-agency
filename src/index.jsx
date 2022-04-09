@@ -21,8 +21,6 @@ const GlobalStyle = createGlobalStyle`
     }
     body{
       margin: 0 5%;
-      min-height: 100vh;
-    min-height: fill-available;
     
     }
    

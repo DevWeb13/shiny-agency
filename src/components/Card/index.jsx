@@ -19,7 +19,7 @@ const CardWrapper = styled.div`
 `;
 
 const CardLabel = styled.span`
-  color: #5843e4;
+  color: ${colors.primary};
   font-size: 22px;
   font-weight: bold;
 `;

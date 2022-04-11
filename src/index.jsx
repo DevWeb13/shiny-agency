@@ -1,7 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './index.css';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Survey from './pages/Survey';
@@ -9,34 +8,28 @@ import Results from './pages/Results';
 import Freelances from './pages/Freelances';
 import Error from './pages/Error';
 import reportWebVitals from './reportWebVitals';
-import { createGlobalStyle } from 'styled-components';
+import { ThemeProvider } from './utils/context';
+import Footer from './components/Footer';
+import GlobalStyle from './utils/style/GlobalStyle';
 
 const container = document.getElementById('app');
 const root = createRoot(container);
 
-const GlobalStyle = createGlobalStyle`
-    * {
-      font-family: 'Trebuchet MS', Helvetica, sans-serif;
-    }
-    body{
-      margin: 0 5%;
-      
-    }
-   
-`;
-
 root.render(
   <React.StrictMode>
     <Router>
-      <GlobalStyle />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/survey/:questionNumber" element={<Survey />} />
-        <Route path="/results" element={<Results />} />
-        <Route path="/freelances" element={<Freelances />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
+      <ThemeProvider>
+        <GlobalStyle />
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/survey/:questionNumber" element={<Survey />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/freelances" element={<Freelances />} />
+          <Route path="*" element={<Error />} />
+        </Routes>
+        <Footer />
+      </ThemeProvider>
     </Router>
   </React.StrictMode>
 );

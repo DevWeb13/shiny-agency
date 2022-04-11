@@ -38,7 +38,7 @@ function Survey() {
   const nextQuestionNumber = questionNumberInt + 1;
   const [surveyData, setSurveyData] = useState({});
   const [isDataLoading, setDataLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
   // Cette syntaxe permet aussi bien de faire des calls API.
   // Mais pour utiliser await dans une fonction, il faut que celle-ci soit async (pour asynchrone).
@@ -50,6 +50,8 @@ function Survey() {
     setDataLoading(true);
     try {
       const response = await fetch(`http://localhost:8000/survey`);
+      console.log('===== response =====', response);
+
       const { surveyData } = await response.json();
       setSurveyData(surveyData);
     } catch (error) {

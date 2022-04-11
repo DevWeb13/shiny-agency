@@ -8,7 +8,7 @@ import Results from './pages/Results';
 import Freelances from './pages/Freelances';
 import Error from './pages/Error';
 import reportWebVitals from './reportWebVitals';
-import { ThemeProvider } from './utils/context';
+import { ThemeProvider, SurveyProvider } from './utils/context';
 import Footer from './components/Footer';
 import GlobalStyle from './utils/style/GlobalStyle';
 
@@ -19,16 +19,18 @@ root.render(
   <React.StrictMode>
     <Router>
       <ThemeProvider>
-        <GlobalStyle />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/survey/:questionNumber" element={<Survey />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/freelances" element={<Freelances />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
-        <Footer />
+        <SurveyProvider>
+          <GlobalStyle />
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/survey/:questionNumber" element={<Survey />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/freelances" element={<Freelances />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+          <Footer />
+        </SurveyProvider>
       </ThemeProvider>
     </Router>
   </React.StrictMode>

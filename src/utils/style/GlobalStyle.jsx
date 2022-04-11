@@ -6,8 +6,6 @@ const StyledGlobalStyle = createGlobalStyle`
     * {
         font-family: 'Trebuchet MS', Helvetica, sans-serif;
     }
- 
-   
     body {
         margin: 0 5%;
         background-color: ${({

@@ -1,17 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { StyledLink } from './../../utils/style/Atoms';
+import { StyledLink, HomeAndErrorContainer } from './../../utils/style/Atoms';
 import HomeMainImgSrc from '../../assets/homeMainImg.svg';
-import colors from '../../utils/style/colors';
-import { variables } from './../../utils/style/variables';
-
-const HomeContainer = styled.main`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background: ${colors.background};
-  height: calc(100vh - ${variables.headerHeight});
-`;
 
 const HomeTextButtonContainer = styled.div`
   width: 40%;
@@ -30,7 +20,7 @@ const HomeMainImgContainer = styled.div`
 
 function Home() {
   return (
-    <HomeContainer>
+    <HomeAndErrorContainer>
       <HomeTextButtonContainer>
         <HomeTxt>
           Repérez vos besoins, on s'occupe du reste, avec les meilleurs talents
@@ -46,7 +36,7 @@ function Home() {
       <HomeMainImgContainer>
         <img src={HomeMainImgSrc} alt="profil draw" />
       </HomeMainImgContainer>
-    </HomeContainer>
+    </HomeAndErrorContainer>
   );
 }
 

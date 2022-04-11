@@ -2,14 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { StyledLink } from './../../utils/style/Atoms';
 import Logo from '../../assets/Logo.svg';
-
-export const headerHeight = '12.5rem';
+import { variables } from './../../utils/style/variables';
 
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: ${headerHeight};
+  height: ${variables.headerHeight};
 `;
 
 function Header() {

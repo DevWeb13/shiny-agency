@@ -3,13 +3,6 @@ import Card from '../../components/Card';
 import DefaultPicture from '../../assets/profile.png';
 import styled from 'styled-components';
 
-const CardsContainer = styled.div`
-  display: grid;
-  gap: 24px;
-  grid-template-rows: 350px 350px;
-  grid-template-columns: repeat(2, 1fr);
-`;
-
 const freelanceProfiles = [
   {
     name: 'Jane Doe',
@@ -28,10 +21,36 @@ const freelanceProfiles = [
   },
 ];
 
+const FreelancesContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const FreelancesH2 = styled.h2`
+  line-height: 39.75px;
+  font-size: 30px;
+`;
+
+const FreelanceP = styled.p`
+  font-size: 20px;
+  line-height: 26.5px;
+`;
+
+const CardsContainer = styled.div`
+  display: grid;
+  gap: 24px;
+  grid-template-rows: 350px 350px;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
 const Freelances = () => {
   return (
-    <div>
-      <h1>Freelances</h1>
+    <FreelancesContainer>
+      <FreelancesH2>Trouvez votre prestataire</FreelancesH2>
+      <FreelanceP>
+        Chez Shiny nous réunissons les meilleurs profils pour vous.
+      </FreelanceP>
       <CardsContainer>
         {freelanceProfiles.map((profile, index) => (
           <Card
@@ -42,7 +61,7 @@ const Freelances = () => {
           />
         ))}
       </CardsContainer>
-    </div>
+    </FreelancesContainer>
   );
 };
 

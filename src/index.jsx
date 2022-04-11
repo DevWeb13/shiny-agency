@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
@@ -21,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body{
       margin: 0 5%;
-    
+      
     }
    
 `;

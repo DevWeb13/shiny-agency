@@ -1,34 +1,42 @@
-import React from 'react';
-import styled from 'styled-components';
-import { StyledLink } from './../../utils/style/Atoms';
-import Logo from '../../assets/Logo.svg';
-import { variables } from './../../utils/style/variables';
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { StyledLink } from '../../utils/style/Atoms'
+import LightLogo from '../../assets/light-logo.png'
+import DarkLogo from '../../assets/dark-logo.png'
+import { useTheme } from '../../utils/hooks'
 
-const StyledHeader = styled.header`
+const HomeLogo = styled.img`
+  height: 70px;
+`
+
+const NavContainer = styled.nav`
+  padding: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: ${variables.headerHeight};
-`;
+`
 
 function Header() {
-  return (
-    <StyledHeader>
-      <img src={Logo} alt="logo" width="187px" />
+  const { theme } = useTheme()
 
-      <nav>
-        <StyledLink to="/">Accueil</StyledLink>
-        <StyledLink to="/freelances">Freelance</StyledLink>
-        <StyledLink
-          to="/survey/1"
-          // @ts-ignore
-          $isFullLink
-        >
+  return (
+    <NavContainer>
+      <Link to="/">
+        <HomeLogo src={theme === 'light' ? DarkLogo : LightLogo} />
+      </Link>
+      <div>
+        <StyledLink $theme={theme} to="/">
+          Accueil
+        </StyledLink>
+        <StyledLink $theme={theme} to="/freelances">
+          Profils
+        </StyledLink>
+        <StyledLink to="/survey/1" $isFullLink>
           Faire le test
         </StyledLink>
-      </nav>
-    </StyledHeader>
-  );
+      </div>
+    </NavContainer>
+  )
 }
 
-export default Header;
+export default Header

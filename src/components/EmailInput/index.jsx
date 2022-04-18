@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import colors from '../../utils/style/colors';
+import { useState } from 'react'
+import styled from 'styled-components'
+import colors from '../../utils/style/colors'
 
 const InputWrapper = styled.div`
   color: ${({ theme }) => (theme === 'light' ? colors.dark : 'white')};
   display: flex;
   flex-direction: column;
-`;
+`
 
 const StyledLabel = styled.label`
   color: ${({ theme }) => (theme === 'light' ? colors.dark : 'white')};
-`;
+`
 
 const StyledInput = styled.input`
   border: none;
@@ -20,10 +20,10 @@ const StyledInput = styled.input`
     ${({ theme }) => (theme === 'light' ? colors.dark : 'white')};
   margin-top: 5px;
   margin-bottom: 15px;
-`;
+`
 
 function EmailInput({ theme }) {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState('')
 
   return (
     <InputWrapper theme={theme}>
@@ -34,7 +34,7 @@ function EmailInput({ theme }) {
       />
       {inputValue}
     </InputWrapper>
-  );
+  )
 }
 
-export default EmailInput;
+export default EmailInput

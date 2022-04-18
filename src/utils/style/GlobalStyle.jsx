@@ -1,24 +1,26 @@
-import { useContext } from 'react';
-import { ThemeContext } from '../context';
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components'
+import { useTheme } from '../hooks'
 
 const StyledGlobalStyle = createGlobalStyle`
     * {
-        font-family: 'Trebuchet MS', Helvetica, sans-serif;
+      font-family: 'Trebuchet MS', Helvetica, sans-serif;
     }
+
+    a {
+      text-decoration: none;
+    }
+
     body {
-        margin: 0 5%;
-        background-color: ${({
-          // @ts-ignore
-          isDarkMode,
-        }) => (isDarkMode ? '#2F2E41' : 'white')};
-       
+        background-color: ${(props) =>
+          props.isDarkMode ? '#2F2E41' : 'white'};
+        margin: 0;
     }
-`;
+`
+
 function GlobalStyle() {
-  const { theme } = useContext(ThemeContext);
-  // @ts-ignore
-  return <StyledGlobalStyle isDarkMode={theme === 'dark'} />;
+  const { theme } = useTheme()
+
+  return <StyledGlobalStyle isDarkMode={theme === 'dark'} />
 }
 
-export default GlobalStyle;
+export default GlobalStyle

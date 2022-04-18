@@ -1,10 +1,12 @@
-import { useContext } from 'react'
-import styled from 'styled-components'
-import EmptyList from '../../components/EmptyList'
-import { SurveyContext } from '../../utils/context'
-import colors from '../../utils/style/colors'
-import { useFetch, useTheme } from '../../utils/hooks'
-import { StyledLink, Loader } from '../../utils/style/Atoms'
+import { useContext } from 'react';
+import styled from 'styled-components';
+import EmptyList from '../../components/EmptyList';
+import { SurveyContext } from '../../utils/context';
+import colors from '../../utils/style/colors';
+import { useFetch } from '../../utils/hooks';
+import { StyledLink, Loader } from '../../utils/style/Atoms';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../../utils/selectors';
 
 const ResultsContainer = styled.div`
   display: flex;
@@ -14,7 +16,7 @@ const ResultsContainer = styled.div`
   padding: 30px;
   background-color: ${({ theme }) =>
     theme === 'light' ? colors.backgroundLight : colors.backgroundDark};
-`
+`;
 
 const ResultsTitle = styled.h2`
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
@@ -25,17 +27,17 @@ const ResultsTitle = styled.h2`
   & > span {
     padding-left: 10px;
   }
-`
+`;
 
 const DescriptionWrapper = styled.div`
   padding: 60px;
-`
+`;
 
 const JobTitle = styled.span`
   color: ${({ theme }) =>
     theme === 'light' ? colors.primary : colors.backgroundLight};
   text-transform: capitalize;
-`
+`;
 
 const JobDescription = styled.div`
   font-size: 18px;
@@ -46,48 +48,48 @@ const JobDescription = styled.div`
   & > span {
     font-size: 20px;
   }
-`
+`;
 
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 
 export function formatQueryParams(answers) {
-  const answerNumbers = Object.keys(answers)
+  const answerNumbers = Object.keys(answers);
 
   return answerNumbers.reduce((previousParams, answerNumber, index) => {
-    const isFirstParam = index === 0
-    const separator = isFirstParam ? '' : '&'
-    return `${previousParams}${separator}a${answerNumber}=${answers[answerNumber]}`
-  }, '')
+    const isFirstParam = index === 0;
+    const separator = isFirstParam ? '' : '&';
+    return `${previousParams}${separator}a${answerNumber}=${answers[answerNumber]}`;
+  }, '');
 }
 
 export function formatJobList(title, listLength, index) {
   if (index === listLength - 1) {
-    return title
+    return title;
   } else {
-    return `${title},`
+    return `${title},`;
   }
 }
 
 function Results() {
-  const { theme } = useTheme()
-  const { answers } = useContext(SurveyContext)
-  const queryParams = formatQueryParams(answers)
+  const theme = useSelector(selectTheme);
+  const { answers } = useContext(SurveyContext);
+  const queryParams = formatQueryParams(answers);
 
   const { data, isLoading, error } = useFetch(
     `http://localhost:8000/results?${queryParams}`
-  )
+  );
 
   if (error) {
-    return <span>Il y a un problème</span>
+    return <span>Il y a un problème</span>;
   }
 
-  const resultsData = data?.resultsData
+  const resultsData = data?.resultsData;
 
   if (resultsData?.length < 1) {
-    return <EmptyList theme={theme} />
+    return <EmptyList theme={theme} />;
   }
 
   return isLoading ? (
@@ -126,7 +128,7 @@ function Results() {
           ))}
       </DescriptionWrapper>
     </ResultsContainer>
-  )
+  );
 }
 
-export default Results
+export default Results;

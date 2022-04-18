@@ -1,7 +1,8 @@
-import styled from 'styled-components'
-import colors from '../../utils/style/colors'
-import { useTheme } from '../../utils/hooks'
-import ErrorIllustration from '../../assets/404.svg'
+import styled from 'styled-components';
+import colors from '../../utils/style/colors';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../../utils/selectors';
+import ErrorIllustration from '../../assets/404.svg';
 
 const ErrorWrapper = styled.div`
   margin: 30px;
@@ -10,24 +11,24 @@ const ErrorWrapper = styled.div`
   background-color: ${({ theme }) =>
     theme === 'light' ? colors.backgroundLight : colors.backgroundDark};
   align-items: center;
-`
+`;
 
 const ErrorTitle = styled.h1`
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
   font-weight: 300;
-`
+`;
 
 const ErrorSubtitle = styled.h2`
   color: ${({ theme }) => (theme === 'light' ? colors.secondary : '#ffffff')};
   font-weight: 300;
-`
+`;
 
 const Illustration = styled.img`
   max-width: 800px;
-`
+`;
 
 function Error() {
-  const { theme } = useTheme()
+  const theme = useSelector(selectTheme);
 
   return (
     <ErrorWrapper theme={theme}>
@@ -37,7 +38,7 @@ function Error() {
         Il semblerait que la page que vous cherchez n’existe pas
       </ErrorSubtitle>
     </ErrorWrapper>
-  )
+  );
 }
 
-export default Error
+export default Error;

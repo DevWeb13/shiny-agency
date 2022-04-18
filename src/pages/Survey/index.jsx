@@ -1,28 +1,30 @@
-import { useContext } from 'react'
-import { useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import colors from '../../utils/style/colors'
-import { Loader } from '../../utils/style/Atoms'
-import { SurveyContext } from '../../utils/context'
-import { useFetch, useTheme } from '../../utils/hooks'
+import { useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import colors from '../../utils/style/colors';
+import { Loader } from '../../utils/style/Atoms';
+import { SurveyContext } from '../../utils/context';
+import { useFetch } from '../../utils/hooks';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../../utils/selectors';
 
 const SurveyContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 const QuestionTitle = styled.h2`
   text-decoration: underline;
   text-decoration-color: ${colors.primary};
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-`
+`;
 
 const QuestionContent = styled.span`
   margin: 30px;
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-`
+`;
 
 const LinkWrapper = styled.div`
   padding-top: 30px;
@@ -32,7 +34,7 @@ const LinkWrapper = styled.div`
   & a:first-of-type {
     margin-right: 20px;
   }
-`
+`;
 
 const ReplyBox = styled.button`
   border: none;
@@ -54,30 +56,31 @@ const ReplyBox = styled.button`
   &:last-of-type {
     margin-left: 15px;
   }
-`
+`;
 
 const ReplyWrapper = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
 
 function Survey() {
-  const { questionNumber } = useParams()
-  const questionNumberInt = parseInt(questionNumber)
-  const prevQuestionNumber = questionNumberInt === 1 ? 1 : questionNumberInt - 1
-  const nextQuestionNumber = questionNumberInt + 1
-  const { theme } = useTheme()
+  const { questionNumber } = useParams();
+  const questionNumberInt = parseInt(questionNumber);
+  const prevQuestionNumber =
+    questionNumberInt === 1 ? 1 : questionNumberInt - 1;
+  const nextQuestionNumber = questionNumberInt + 1;
+  const theme = useSelector(selectTheme);
 
-  const { saveAnswers, answers } = useContext(SurveyContext)
+  const { saveAnswers, answers } = useContext(SurveyContext);
 
   function saveReply(answer) {
-    saveAnswers({ [questionNumber]: answer })
+    saveAnswers({ [questionNumber]: answer });
   }
-  const { data, isLoading, error } = useFetch(`http://localhost:8000/survey`)
-  const surveyData = data?.surveyData
+  const { data, isLoading, error } = useFetch(`http://localhost:8000/survey`);
+  const surveyData = data?.surveyData;
 
   if (error) {
-    return <span>Il y a un problème</span>
+    return <span>Il y a un problème</span>;
   }
 
   return (
@@ -115,7 +118,7 @@ function Survey() {
         )}
       </LinkWrapper>
     </SurveyContainer>
-  )
+  );
 }
 
-export default Survey
+export default Survey;

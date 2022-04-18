@@ -1,5 +1,6 @@
-import { createGlobalStyle } from 'styled-components'
-import { useTheme } from '../hooks'
+import { createGlobalStyle } from 'styled-components';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../selectors';
 
 const StyledGlobalStyle = createGlobalStyle`
     * {
@@ -15,12 +16,12 @@ const StyledGlobalStyle = createGlobalStyle`
           props.isDarkMode ? '#2F2E41' : 'white'};
         margin: 0;
     }
-`
+`;
 
 function GlobalStyle() {
-  const { theme } = useTheme()
+  const theme = useSelector(selectTheme);
 
-  return <StyledGlobalStyle isDarkMode={theme === 'dark'} />
+  return <StyledGlobalStyle isDarkMode={theme === 'dark'} />;
 }
 
-export default GlobalStyle
+export default GlobalStyle;

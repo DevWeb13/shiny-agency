@@ -1,36 +1,17 @@
-import { createStore, combineReducers } from 'redux';
+import { combineReducers, createStore } from 'redux';
+import themeReducer from '../features/theme';
 
-const initialState = {
-  theme: 'light',
-  answers: {},
-};
-
-const darkModeReducer = (state = initialState.theme, action) => {
-  switch (action.type) {
-    case 'TOGGLE_THEME':
-      return state === 'light' ? 'dark' : 'light';
-    default:
-      return state;
-  }
-};
-
-const answersReducer = (state = initialState.answers, action) => {
-  switch (action.type) {
-    case 'ADD_ANSWER':
-      const saveAnswers = (newAnswers) => {
-        ({ ...initialState, ...newAnswers }
-      }
-      return {
-        ...state,  ...initialState.answers, ...newAnswers ,
-      };
-    default:
-      return state;
-  }
-};
-
+// on utilise combineReducer pour faire
+// fonctionner plusieurs reducers ensemble
 const reducer = combineReducers({
-  // la propriété darkMode
-  // est gérée par le darkModeReducer
-  darkMode: darkModeReducer,
-  answers: answersReducer,
+  // le themeReducer est responsable de la propriété `theme` du state
+  theme: themeReducer,
 });
+
+// on utilise le reducer créer avec combineReducers
+// pour initialiser le store
+// Pas besoin de passer de state initial
+// car chaque reducer à son propre state initial
+const store = createStore(reducer);
+
+export default store;

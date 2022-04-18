@@ -10,15 +10,17 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Error from './components/Error';
 import GlobalStyle from './utils/style/GlobalStyle';
-import { ThemeProvider, SurveyProvider } from './utils/context';
+import { SurveyProvider } from './utils/context';
+import { Provider } from 'react-redux';
+import store from './utils/store';
 
 const container = document.getElementById('app');
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Router>
-      <ThemeProvider>
+    <Provider store={store}>
+      <Router>
         <SurveyProvider>
           <GlobalStyle />
           <Header />
@@ -32,7 +34,7 @@ root.render(
           </Routes>
           <Footer />
         </SurveyProvider>
-      </ThemeProvider>
-    </Router>
+      </Router>
+    </Provider>
   </React.StrictMode>
 );

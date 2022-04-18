@@ -1,9 +1,11 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import Card from '../../components/Card'
-import colors from '../../utils/style/colors'
-import { Loader } from '../../utils/style/Atoms'
-import { useFetch, useTheme } from '../../utils/hooks'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import Card from '../../components/Card';
+import colors from '../../utils/style/colors';
+import { Loader } from '../../utils/style/Atoms';
+import { useFetch } from '../../utils/hooks';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../../utils/selectors';
 
 const CardsContainer = styled.div`
   display: grid;
@@ -12,14 +14,14 @@ const CardsContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
   justify-items: center;
-`
+`;
 
 const PageTitle = styled.h1`
   font-size: 30px;
   text-align: center;
   padding-bottom: 30px;
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-`
+`;
 
 const PageSubtitle = styled.h2`
   font-size: 20px;
@@ -28,23 +30,23 @@ const PageSubtitle = styled.h2`
   text-align: center;
   padding-bottom: 30px;
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-`
+`;
 
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 
 function Freelances() {
-  const { theme } = useTheme()
+  const theme = useSelector(selectTheme);
   const { data, isLoading, error } = useFetch(
     `http://localhost:8000/freelances`
-  )
+  );
 
-  const freelancersList = data?.freelancersList
+  const freelancersList = data?.freelancersList;
 
   if (error) {
-    return <span>Il y a un problème</span>
+    return <span>Il y a un problème</span>;
   }
 
   return (
@@ -72,7 +74,7 @@ function Freelances() {
         </CardsContainer>
       )}
     </div>
-  )
+  );
 }
 
-export default Freelances
+export default Freelances;

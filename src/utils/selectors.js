@@ -1,2 +1,2 @@
-// ce selector est utilisé avec le hook useSeletor
+// ce selector est utilisé avec le hook useSelector
 export const selectTheme = (state) => state.theme;

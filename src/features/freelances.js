@@ -12,3 +12,5 @@ const REJECTED = 'freelances/rejected';
 const freelancesFetching = () => ({ type: FETCHING });
 const freelancesResolved = (data) => ({ type: RESOLVED, payload: data });
 const freelancesRejected = (error) => ({ type: REJECTED, payload: error });
+
+export default function freelancesReducer(state = initialState, action) {

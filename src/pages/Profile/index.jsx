@@ -82,7 +82,10 @@ const Availability = styled.span`
     height: 10px;
     width: 10px;
     border-radius: 5px;
-    background-color: ${({ available }) => (available ? 'green' : 'red')};
+    background-color: ${({
+      // @ts-ignore
+      available,
+    }) => (available ? 'green' : 'red')};
     content: '';
   }
   padding-left: 20px;
@@ -120,7 +123,10 @@ function Profile() {
               </Skill>
             ))}
         </SkillsWrapper>
-        <Availability available={available}>
+        <Availability
+          // @ts-ignore
+          available={available}
+        >
           {available ? 'Disponible maintenant' : 'Indisponible'}
         </Availability>
         <Price>{tjm} € / jour</Price>

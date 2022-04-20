@@ -7,7 +7,7 @@ const initialState = {
   error: null,
 };
 
-const FETCHING = 'survey/fething';
+const FETCHING = 'survey/fetching';
 const RESOLVED = 'survey/resolved';
 const REJECTED = 'survey/rejected';
 

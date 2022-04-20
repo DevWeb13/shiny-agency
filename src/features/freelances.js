@@ -7,7 +7,7 @@ const initialState = {
   error: null,
 };
 
-const FETCHING = 'freelances/fething';
+const FETCHING = 'freelances/fetching';
 const RESOLVED = 'freelances/resolved';
 const REJECTED = 'freelances/rejected';
 

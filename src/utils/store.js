@@ -2,6 +2,7 @@ import { combineReducers, createStore } from 'redux';
 import themeReducer from '../features/theme';
 import freelancesReducer from '../features/freelances';
 import surveyReducer from '../features/survey';
+import freelanceReducer from '../features/freelance';
 
 // on utilise combineReducer pour faire
 // fonctionner plusieurs reducers ensemble
@@ -10,9 +11,13 @@ const reducer = combineReducers({
   theme: themeReducer,
   // le freelancesReducer est responsable de la propriété `freelances` du state
   freelances: freelancesReducer,
+  // le surveyReducer est responsable de la propriété `survey` du state
   survey: surveyReducer,
+  // le freelanceReducer est responsable de la propriété `profile` du state
+  freelance: freelanceReducer,
 });
 const reduxDevtools =
+  // @ts-ignore
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 // on utilise le reducer créer avec combineReducers
 // pour initialiser le store

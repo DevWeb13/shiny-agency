@@ -1,24 +1,18 @@
-// On utilise des variables pour les noms des actions pour éviter les fautes de frappe
-
-const TOGGLE_THEME = 'theme/toggle';
-const SET_THEME = 'theme/set';
+import { createAction } from '@reduxjs/toolkit';
 
 // actions creators
 
-export const toggleTheme = () => ({ type: TOGGLE_THEME });
+export const toggleTheme = createAction('theme/toggle');
 
-export const setTheme = (theme = 'light') => ({
-  type: SET_THEME,
-  payload: theme,
-});
+export const setTheme = createAction('theme/set');
 
 // Le reducer
 // on utilise une valeur par defaut pour donner le state initial
 export default function themeReducer(state = 'light', action) {
   switch (action.type) {
-    case TOGGLE_THEME:
+    case toggleTheme.toString():
       return state === 'light' ? 'dark' : 'light';
-    case SET_THEME:
+    case setTheme.toString():
       return action.payload;
     default:
       return state;

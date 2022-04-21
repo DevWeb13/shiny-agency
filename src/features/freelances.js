@@ -1,5 +1,5 @@
-import produce from 'immer';
 import { selectFreelances } from '../utils/selectors';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 
 const initialState = {
   status: 'void',
@@ -7,14 +7,15 @@ const initialState = {
   error: null,
 };
 
-const FETCHING = 'freelances/fetching';
-const RESOLVED = 'freelances/resolved';
-const REJECTED = 'freelances/rejected';
+const freelancesFetching = createAction('freelances/fetching');
 
-//actions creators
-const freelancesFetching = () => ({ type: FETCHING });
-const freelancesResolved = (data) => ({ type: RESOLVED, payload: data });
-const freelancesRejected = (error) => ({ type: REJECTED, payload: error });
+const freelancesResolved = createAction('freelances/resolved', (data) => ({
+  payload: data,
+}));
+
+const freelancesRejected = createAction('freelances/rejected', (error) => ({
+  payload: error,
+}));
 
 export async function fetchOrUpdateFreelances(store) {
   const status = selectFreelances(store.getState()).status;
@@ -31,44 +32,81 @@ export async function fetchOrUpdateFreelances(store) {
   }
 }
 
-export default function freelancesReducer(state = initialState, action) {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      case FETCHING: {
-        if (draft.status === 'void') {
-          draft.status = 'pending';
-          return;
-        }
-        if (draft.status === 'rejected') {
-          draft.status = 'pending';
-          draft.error = null;
-          return;
-        }
-        if (draft.status === 'resolved') {
-          draft.status = 'updating';
-          return;
-        }
+export default createReducer(initialState, (builder) => {
+  builder
+    .addCase(freelancesFetching, (draft) => {
+      if (draft.status === 'void') {
+        draft.status = 'pending';
         return;
       }
-      case RESOLVED: {
-        if (draft.status === 'updating' || draft.status === 'pending') {
-          draft.status = 'resolved';
-          draft.data = action.payload;
-          return;
-        }
+      if (draft.status === 'rejected') {
+        draft.status = 'pending';
+        draft.error = null;
         return;
       }
-      case REJECTED: {
-        if (draft.status === 'updating' || draft.status === 'pending') {
-          draft.status = 'rejected';
-          draft.error = action.payload;
-          draft.data = null;
-          return;
-        }
+      if (draft.status === 'resolved') {
+        draft.status = 'updating';
         return;
       }
-      default:
+      return;
+    })
+    .addCase(freelancesResolved, (draft, action) => {
+      if (draft.status === 'updating' || draft.status === 'pending') {
+        draft.status = 'resolved';
+        draft.data = action.payload;
         return;
-    }
-  });
-}
+      }
+      return;
+    })
+    .addCase(freelancesRejected, (draft, action) => {
+      if (draft.status === 'updating' || draft.status === 'pending') {
+        draft.status = 'rejected';
+        draft.error = action.payload;
+        draft.data = null;
+        return;
+      }
+      return;
+    });
+});
+
+// export default function freelancesReducer(state = initialState, action) {
+//   return produce(state, (draft) => {
+//     switch (action.type) {
+//       case FETCHING: {
+//         if (draft.status === 'void') {
+//           draft.status = 'pending';
+//           return;
+//         }
+//         if (draft.status === 'rejected') {
+//           draft.status = 'pending';
+//           draft.error = null;
+//           return;
+//         }
+//         if (draft.status === 'resolved') {
+//           draft.status = 'updating';
+//           return;
+//         }
+//         return;
+//       }
+//       case RESOLVED: {
+//         if (draft.status === 'updating' || draft.status === 'pending') {
+//           draft.status = 'resolved';
+//           draft.data = action.payload;
+//           return;
+//         }
+//         return;
+//       }
+//       case REJECTED: {
+//         if (draft.status === 'updating' || draft.status === 'pending') {
+//           draft.status = 'rejected';
+//           draft.error = action.payload;
+//           draft.data = null;
+//           return;
+//         }
+//         return;
+//       }
+//       default:
+//         return;
+//     }
+//   });
+// }

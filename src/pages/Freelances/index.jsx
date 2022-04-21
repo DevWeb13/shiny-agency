@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
 import colors from '../../utils/style/colors';
 import { Loader } from '../../utils/style/Atoms';
-import { useSelector, useStore } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectTheme, selectFreelances } from '../../utils/selectors';
 import { fetchOrUpdateFreelances } from '../../features/freelances';
 import { useEffect } from 'react';
@@ -39,16 +39,16 @@ const LoaderWrapper = styled.div`
 `;
 
 function Freelances() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOrUpdateFreelances);
+  }, [dispatch]);
+
   const theme = useSelector(selectTheme);
   const freelances = useSelector(selectFreelances);
 
   const freelancersList = freelances.data?.freelancersList;
-
-  const store = useStore();
-
-  useEffect(() => {
-    fetchOrUpdateFreelances(store);
-  }, [store]);
 
   if (freelances.status === 'rejected') {
     return <span>Il y a un problème</span>;

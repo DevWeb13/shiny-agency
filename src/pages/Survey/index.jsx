@@ -6,7 +6,7 @@ import colors from '../../utils/style/colors';
 import { Loader } from '../../utils/style/Atoms';
 import { SurveyContext } from '../../utils/context';
 // import { useFetch } from '../../utils/hooks';
-import { useSelector, useStore } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectTheme, selectSurvey } from '../../utils/selectors';
 import { fetchOrUpdateSurvey } from '../../features/survey';
 
@@ -79,15 +79,14 @@ function Survey() {
   function saveReply(answer) {
     saveAnswers({ [questionNumber]: answer });
   }
-  // const { data, isLoading, error } = useFetch(`http://localhost:8000/survey`);
 
   const surveyData = survey.data?.surveyData;
 
-  const store = useStore();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchOrUpdateSurvey(store);
-  }, [store]);
+    dispatch(fetchOrUpdateSurvey);
+  }, [dispatch]);
 
   if (survey.status === 'rejected') {
     return <span>Il y a un problème</span>;

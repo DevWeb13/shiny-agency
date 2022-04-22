@@ -85,6 +85,7 @@ function Survey() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(fetchOrUpdateSurvey);
   }, [dispatch]);
 

@@ -42,6 +42,7 @@ function Freelances() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(fetchOrUpdateFreelances);
   }, [dispatch]);
 

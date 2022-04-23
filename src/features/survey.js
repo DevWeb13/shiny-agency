@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { selectSurvey } from '../utils/selectors';
 
 const initialState = {
@@ -7,33 +7,26 @@ const initialState = {
   error: null,
 };
 
-//actions creators
-const surveyFetching = createAction('survey/fetching');
-const surveyResolved = createAction('survey/resolved', (data) => ({
-  payload: data,
-}));
-const surveyRejected = createAction('survey/rejected', (error) => ({
-  payload: error,
-}));
-
 export async function fetchOrUpdateSurvey(dispatch, getState) {
   const status = selectSurvey(getState()).status;
   if (status === 'pending' || status === 'updating') {
     return;
   }
-  dispatch(surveyFetching());
+  dispatch(actions.fetching());
   try {
     const response = await fetch('http://localhost:8000/survey');
     const data = await response.json();
-    dispatch(surveyResolved(data));
+    dispatch(actions.resolved(data));
   } catch (error) {
-    dispatch(surveyRejected(error));
+    dispatch(actions.rejected(error));
   }
 }
 
-export default createReducer(initialState, (builder) =>
-  builder
-    .addCase(surveyFetching, (draft, action) => {
+const { actions, reducer } = createSlice({
+  name: 'survey',
+  initialState,
+  reducers: {
+    fetching: (draft, action) => {
       if (draft.status === 'void') {
         draft.status = 'pending';
         return;
@@ -48,16 +41,16 @@ export default createReducer(initialState, (builder) =>
         return;
       }
       return;
-    })
-    .addCase(surveyResolved, (draft, action) => {
+    },
+    resolved: (draft, action) => {
       if (draft.status === 'updating' || draft.status === 'pending') {
         draft.status = 'resolved';
         draft.data = action.payload;
         return;
       }
       return;
-    })
-    .addCase(surveyRejected, (draft, action) => {
+    },
+    rejected: (draft, action) => {
       if (draft.status === 'updating' || draft.status === 'pending') {
         draft.status = 'rejected';
         draft.error = action.payload;
@@ -65,5 +58,8 @@ export default createReducer(initialState, (builder) =>
         return;
       }
       return;
-    })
-);
+    },
+  },
+});
+
+export default reducer;

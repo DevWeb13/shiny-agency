@@ -1,5 +1,5 @@
 import { selectResults } from '../utils/selectors';
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   status: 'void',
@@ -8,66 +8,79 @@ const initialState = {
   params: null,
 };
 
-const resultsFetching = createAction('results/fetching', (params) => ({
-  payload: { params },
-}));
-
-const resultsResolved = createAction('results/resolved', (params, data) => ({
-  payload: { params, data },
-}));
-
-const resultsRejected = createAction('results/rejected', (params, error) => ({
-  payload: { params, error },
-}));
-
 export function fetchOrUpdataResults(params) {
   return async (dispatch, getState) => {
     const results = selectResults(getState());
     if (results.status === 'void' || results.params !== params) {
-      dispatch(resultsFetching(params));
+      dispatch(actions.fetching(params));
       try {
         const response = await fetch(`http://localhost:8000/results?${params}`);
         const data = await response.json();
-        dispatch(resultsResolved(params, data));
+        // @ts-ignore
+        dispatch(actions.resolved(params, data));
       } catch (error) {
-        dispatch(resultsRejected(params, error));
+        // @ts-ignore
+        dispatch(actions.rejected(params, error));
       }
     }
   };
 }
 
-export default createReducer(initialState, (builder) => {
-  builder
-    .addCase(resultsFetching, (draft, action) => {
-      const params = action.payload.params;
-      if ((draft.status = 'void')) {
+const { actions, reducer } = createSlice({
+  name: 'results',
+  initialState,
+  reducers: {
+    fetching: {
+      // @ts-ignore
+      prepare: (params) => ({
+        payload: { params },
+      }),
+      reducer: (draft, action) => {
+        const params = action.payload.params;
+        if ((draft.status = 'void')) {
+          draft.params = params;
+          draft.status = 'pending';
+          return;
+        }
+        draft.status = 'updating';
         draft.params = params;
-        draft.status = 'pending';
+      },
+    },
+    resolved: {
+      // @ts-ignore
+      prepare: (params, data) => ({
+        payload: { params, data },
+      }),
+      reducer: (draft, action) => {
+        if (draft.params !== action.payload.params) {
+          return;
+        }
+        if (draft.status === 'pending' || draft.status === 'updating') {
+          draft.status = 'resolved';
+          draft.data = action.payload.data;
+          return;
+        }
         return;
-      }
-      draft.status = 'updating';
-      draft.params = params;
-    })
-    .addCase(resultsResolved, (draft, action) => {
-      if (draft.params !== action.payload.params) {
-        return;
-      }
-      if (draft.status === 'pending' || draft.status === 'updating') {
-        draft.status = 'resolved';
-        draft.data = action.payload.data;
-        return;
-      }
-      return;
-    })
-    .addCase(resultsRejected, (draft, action) => {
-      if (draft.params !== action.payload.params) {
-        return;
-      }
-      if (draft.status === 'pending' || draft.status === 'updating') {
-        draft.data = null;
-        draft.status = 'rejected';
-        draft.error = action.payload.error;
-        return;
-      }
-    });
+      },
+    },
+    rejected: {
+      // @ts-ignore
+      prepare: (params, data) => ({
+        payload: { params, data },
+      }),
+      reducer: (draft, action) => {
+        if (draft.params !== action.payload.params) {
+          return;
+        }
+        if (draft.status === 'pending' || draft.status === 'updating') {
+          draft.data = null;
+          draft.status = 'rejected';
+          draft.error = action.payload.error;
+          return;
+        }
+      },
+    },
+  },
 });
+
+export default reducer;

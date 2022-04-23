@@ -81,6 +81,7 @@ function Results() {
   const dispatch = useDispatch();
   console.log(results);
   useEffect(() => {
+    // @ts-ignore
     dispatch(fetchOrUpdataResults(queryParams));
   }, [queryParams, dispatch]);
 

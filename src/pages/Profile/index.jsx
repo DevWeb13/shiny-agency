@@ -97,6 +97,7 @@ function Profile() {
   const { id: freelanceId } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
+    // @ts-ignore
     dispatch(fetchOrUpdateFreelance(freelanceId));
   }, [dispatch, freelanceId]);
 

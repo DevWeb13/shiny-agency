@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import colors from '../../utils/style/colors';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectFreelance, selectTheme } from '../../utils/selectors';
-import { fetchOrUpdateFreelance } from '../../features/freelance';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../../utils/selectors';
+import { useQuery } from 'react-query';
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -95,15 +94,24 @@ const Availability = styled.span`
 function Profile() {
   const theme = useSelector(selectTheme);
   const { id: freelanceId } = useParams();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // @ts-ignore
-    dispatch(fetchOrUpdateFreelance(freelanceId));
-  }, [dispatch, freelanceId]);
 
-  const freelance = useSelector(selectFreelance(freelanceId));
+  const { data } = useQuery('freelance', async () => {
+    const response = await fetch(
+      `http://localhost:8000/freelance?id=${freelanceId}`
+    );
+    const data = await response.json();
+    return data;
+  });
 
-  const profileData = freelance.data?.freelanceData ?? {};
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   dispatch(fetchOrUpdateFreelance(freelanceId));
+  // }, [dispatch, freelanceId]);
+
+  // const freelance = useSelector(selectFreelance(freelanceId));
+
+  const profileData = data?.freelanceData ?? {};
 
   const { picture, name, location, tjm, job, skills, available, id } =
     profileData;

@@ -1,15 +1,10 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
 import EmptyList from '../../components/EmptyList';
 import colors from '../../utils/style/colors';
 import { StyledLink, Loader } from '../../utils/style/Atoms';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  selectResults,
-  selectTheme,
-  selectAnswers,
-} from '../../utils/selectors';
-import { fetchOrUpdataResults } from '../../features/results';
+import { useSelector } from 'react-redux';
+import { selectTheme, selectAnswers } from '../../utils/selectors';
+import { useQuery } from 'react-query';
 
 const ResultsContainer = styled.div`
   display: flex;
@@ -80,23 +75,23 @@ function Results() {
   const theme = useSelector(selectTheme);
   const answers = useSelector(selectAnswers);
   const queryParams = formatQueryParams(answers);
-  const results = useSelector(selectResults);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // @ts-ignore
-    dispatch(fetchOrUpdataResults(queryParams));
-  }, [queryParams, dispatch]);
 
-  if (results.status === 'rejected') {
+  const { data, isLoading, error } = useQuery(
+    ['results', queryParams],
+    async () => {
+      const response = await fetch(
+        `http://localhost:8000/results?${queryParams}`
+      );
+      const data = await response.json();
+      return data;
+    }
+  );
+
+  if (error) {
     return <span>Il y a un problème</span>;
   }
 
-  const resultsData = results.data?.resultsData;
-
-  const isLoading =
-    results.status === 'void' ||
-    results.status === 'pending' ||
-    results.status === 'updating';
+  const resultsData = data?.resultsData;
 
   if (resultsData?.length < 1) {
     return <EmptyList theme={theme} />;

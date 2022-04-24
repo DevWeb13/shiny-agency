@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
 import colors from '../../utils/style/colors';
 import { Loader } from '../../utils/style/Atoms';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectTheme, selectFreelances } from '../../utils/selectors';
-import { fetchOrUpdateFreelances } from '../../features/freelances';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../../utils/selectors';
+
+import { useQuery } from 'react-query';
 
 const CardsContainer = styled.div`
   display: grid;
@@ -39,24 +39,19 @@ const LoaderWrapper = styled.div`
 `;
 
 function Freelances() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // @ts-ignore
-    dispatch(fetchOrUpdateFreelances);
-  }, [dispatch]);
-
   const theme = useSelector(selectTheme);
-  const freelances = useSelector(selectFreelances);
 
-  const freelancersList = freelances.data?.freelancersList;
+  const { data, isLoading, error } = useQuery('freelances', async () => {
+    const response = await fetch('http://localhost:8000/freelances');
+    const data = await response.json();
+    return data;
+  });
 
-  if (freelances.status === 'rejected') {
+  const freelancersList = data?.freelancersList;
+
+  if (error) {
     return <span>Il y a un problème</span>;
   }
-
-  const isLoading =
-    freelances.status === 'void' || freelances.status === 'pending';
 
   return (
     <div>

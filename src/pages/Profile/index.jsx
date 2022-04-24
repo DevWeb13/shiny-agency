@@ -95,7 +95,7 @@ function Profile() {
   const theme = useSelector(selectTheme);
   const { id: freelanceId } = useParams();
 
-  const { data } = useQuery('freelance', async () => {
+  const { data } = useQuery(['freelance', freelanceId], async () => {
     const response = await fetch(
       `http://localhost:8000/freelance?id=${freelanceId}`
     );
